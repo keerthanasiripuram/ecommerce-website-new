@@ -1,0 +1,22 @@
+# Node.js
+node_modules
+
+# Environment variables
+.env
+
+# production
+/build
+
+#uploads
+/uploads
+
+#sql queries 
+/queries.sql
+
+# misc
+.DS_Store
+
+npm-debug.log*
+
+# Ignore private keys and sensitive files
+node_modules/public-encrypt/test/test_rsa_privkey.pem
