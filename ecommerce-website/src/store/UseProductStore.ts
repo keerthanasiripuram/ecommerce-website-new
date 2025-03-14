@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export interface reviewData {
+export interface ReviewData {
   rating: number;
   comment: string;
   date: Date;
@@ -8,7 +8,7 @@ export interface reviewData {
   reviewerEmail: string;
 }
 
-export interface productData {
+export interface ProductData {
   id: number;
   title: string;
   description: string;
@@ -18,15 +18,15 @@ export interface productData {
   stock: number;
   images: string;
   quantity: number;
-  reviews: Array<reviewData>;
+  reviews: Array<ReviewData>;
 }
 
-interface productStore {
-  productData: productData[];
-  setProductData: (data: productData[]) => void;
+interface ProductStore {
+  productData: ProductData[];
+  setProductData: (data: ProductData[]) => void;
 }
 
-export const useProduct = create<productStore>()((set) => ({
+export const useProduct = create<ProductStore>()((set) => ({
   productData: [],
 
   setProductData: (data) => set({ productData: data }),

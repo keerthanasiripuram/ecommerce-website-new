@@ -2,12 +2,12 @@ import React, { JSX } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
-type protectedRouteState = {
+type ProtectedRouteState = {
   role: string;
   children: React.ReactNode;
 };
 
-const ProtectedRoute = (props: protectedRouteState): JSX.Element => {
+const ProtectedRoute = (props: ProtectedRouteState): JSX.Element => {
   const token = localStorage.getItem("token");
 
   if (!token) {

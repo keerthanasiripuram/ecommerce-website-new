@@ -33,7 +33,7 @@ const style = {
   overflowY: "auto",
 };
 
-export type reviewDataState = {
+export type ReviewState = {
   rating: number;
   comment: string;
   date: Date;
@@ -41,7 +41,7 @@ export type reviewDataState = {
   reviewerEmail: string;
 };
 
-export type productDataState = {
+export type ProductState = {
   id: number;
   title: string;
   description: string;
@@ -49,9 +49,9 @@ export type productDataState = {
   price: number;
   rating: number;
   stock: number;
-  images: string;
+  image: string;
   quantity: number;
-  reviews: Array<reviewDataState>;
+  reviews: Array<ReviewState>;
 };
 
 const ProductPage1 = () => {
@@ -66,7 +66,7 @@ const ProductPage1 = () => {
   const { id } = useParams();
 
   //get and set prdctData
-  const [productData, setProductData] = useState<productDataState>();
+  const [productData, setProductData] = useState<ProductState>();
 
   useEffect(() => {
     getSingleProduct();
@@ -74,7 +74,7 @@ const ProductPage1 = () => {
 
   const getSingleProduct = async () => {
     try {
-      const response = await axiosInstance.get(`user/view-product/${id}`);
+      const response = await axiosInstance.get(`user/get-product/${id}`);
       setProductData(response.data.data);
       console.log(response.data.message);
       setIsLoading(false);
@@ -96,9 +96,13 @@ const ProductPage1 = () => {
   //modal dta & handlers
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = useCallback(() => {
+  // const handleOpen = useCallback(() => {
+  //   setOpen(true);
+  // }, []);
+
+  const handleOpen = () => {
     setOpen(true);
-  }, []);
+  };
 
   const handleClose = useCallback(() => setOpen(false), []);
 
@@ -149,8 +153,8 @@ const ProductPage1 = () => {
             >
               <img
                 src={
-                  typeof productData.images === "string"
-                    ? `http://localhost:3001/${productData.images}`
+                  typeof productData.image === "string"
+                    ? `http://localhost:3001/${productData.image}`
                     : ""
                 }
                 style={{

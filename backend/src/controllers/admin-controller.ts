@@ -1,43 +1,35 @@
 import { Request, Response } from "express";
 import {
-  add_product_service,
-  delete_product_service,
-  update_product_service,
-  view_product_service,
+  deleteProductService,
+  getProductsService,
+  postProductService,
+  updateProductService,
 } from "../services/admin-services";
 import { CustomError } from "../errorObject";
+import { ProductState } from "../models/product-model";
 
-type product_state = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  rating: number;
-  stock: number;
-  images: string;
-};
 
-export const add_product = async (
+
+export const postProduct = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const product_data: product_state = req.body;
-
+    const productData: ProductState = req.body;
+//check id r we gtng by rmvng it in ? in prdcrstate, if nt prsnt thn y is it nt gvng err
     const imagePath = req.file ? req.file.path : null;
-
     if (imagePath) {
-      product_data.images = imagePath;
+      productData.image = imagePath;
     }
 
-    const admin_response = await add_product_service(product_data);
+    const adminResponse = await postProductService(productData);
 
     return res.status(201).json({
       message: "add product successfully",
-      data: admin_response,
+      data: adminResponse,
     });
   } catch (err: any) {
+    console.log(err)
     if (err instanceof CustomError) {
       return res.status(err.statusCode).json({
         message: err.message,
@@ -50,16 +42,16 @@ export const add_product = async (
   }
 };
 
-export const view_product = async (
+export const getProducts = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const admin_response = await view_product_service();
+    const adminResponse = await getProductsService();
 
     return res.status(200).json({
       message: "prodcurs fetched successfully",
-      data: admin_response,
+      data: adminResponse,
     });
   } catch (err: any) {
     if (err instanceof CustomError) {
@@ -74,18 +66,18 @@ export const view_product = async (
   }
 };
 
-export const delete_product = async (
+export const deleteProduct = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const product_id: number = parseInt(req.params.id, 10);
+    const productId: number = parseInt(req.params.id, 10);
 
-    const admin_response = await delete_product_service(product_id);
+    const adminResponse = await deleteProductService(productId);
 
     return res.status(200).json({
       message: " product deleted successfully",
-      data: admin_response,
+      data: adminResponse,
     });
   } catch (err: any) {
     if (err instanceof CustomError) {
@@ -100,28 +92,28 @@ export const delete_product = async (
   }
 };
 
-export const update_product = async (
+export const updateProduct = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const product_data: product_state = req.body;
+    const productData: ProductState = req.body;
 
-    const product_id: number = parseInt(req.params.id, 10);
+    const productId: number = parseInt(req.params.id, 10);
 
     const imagePath = req.file ? req.file.path : null;
 
     if (imagePath) {
-      product_data.images = imagePath;
+      productData.image = imagePath;
     }
 
-    product_data.id = product_id;
+    productData.id = productId;
 
-    const admin_response = await update_product_service(product_data);
+    const adminResponse = await updateProductService(productData);
 
     return res.status(200).json({
       message: " product updated successfully",
-      data: admin_response,
+      data: adminResponse,
     });
   } catch (err: any) {
     if (err instanceof CustomError) {

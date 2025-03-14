@@ -12,7 +12,7 @@ import Header from "../components/Header";
 import { useProduct } from "../store/UseProductStore";
 import axiosInstance from "../interceptors/interceptor";
 
-export type reviewDataState = {
+export type ReviewState = {
   rating: number;
   comment: string;
   date: Date;
@@ -20,7 +20,7 @@ export type reviewDataState = {
   reviewerEmail: string;
 };
 
-export type productDataState = {
+export type ProductState = {
   id: number;
   title: string;
   description: string;
@@ -30,7 +30,7 @@ export type productDataState = {
   stock: number;
   images: string;
   quantity: number;
-  reviews: Array<reviewDataState>;
+  reviews: Array<ReviewState>;
 };
 
 const HomePage1 = () => {
@@ -43,7 +43,7 @@ const HomePage1 = () => {
 
   const getProducts = async () => {
     try {
-      const response = await axiosInstance.get("user/view-products");
+      const response = await axiosInstance.get("user/get-products");
       setProductData(response.data.data);
       setLoading(false);
       console.log(response.data.message);

@@ -22,7 +22,7 @@ import CustomTextField from "../customFields/CustomTextField";
 import { useUserProfile } from "../store/UserProfileStore";
 import { useModal } from "../store/UseModalType";
 
-export type registerState = {
+export type RegisterState = {
   name: string;
   email: string;
   mobilenumber: string;
@@ -32,11 +32,11 @@ export type registerState = {
   address: string;
 };
 
-type registerProps = {
+type RegisterProps = {
   onClose: () => void;
 };
 
-const Registration = (props: registerProps) => {
+const Registration = (props: RegisterProps) => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -56,7 +56,7 @@ const Registration = (props: registerProps) => {
 
   const setData = useUserProfile((state) => state.setData);
 
-  const [registerFormData, setRegisterFormData] = useState<registerState>({
+  const [registerFormData, setRegisterFormData] = useState<RegisterState>({
     name: "",
     email: "",
     mobilenumber: "",
@@ -93,7 +93,7 @@ const Registration = (props: registerProps) => {
 
   const fetchUserDetails = async (id: string) => {
     try {
-      const response = await axiosInstance.get("user/fetch-user");
+      const response = await axiosInstance.get("user/get-user");
       setRegisterFormData({
         ...(response.data.data || {}),
         password: "",
@@ -177,7 +177,7 @@ const Registration = (props: registerProps) => {
     if (!token) {
       if (validateForm()) {
         try {
-          const response = await axiosInstance.post("user/register", {
+          const response = await axiosInstance.post("auth/register", {
             name: registerFormData.name,
             email: registerFormData.email,
             mobile_number: registerFormData.mobilenumber,

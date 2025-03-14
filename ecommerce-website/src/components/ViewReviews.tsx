@@ -1,14 +1,14 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import axiosInstance from "../interceptors/interceptor";
+import { getReviewData } from "../controllers/ProductController";
 
-type readReviewState = {
-  reviewer_name: string;
-  reviewer_email: string;
+type ReadReviewState = {
+  reviewerName: string;
+  reviewerEmail: string;
   rating: number;
   comment: string;
-  product_id: number;
+  productId: number;
   date: string;
 };
 
@@ -18,7 +18,7 @@ const ViewReviews = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   //view-reviews
-  const [reviewData, setReviewData] = useState<readReviewState[]>([]);
+  const [reviewData, setReviewData] = useState<ReadReviewState[]>([]);
 
   useEffect(() => {
     viewReviews();
@@ -26,8 +26,8 @@ const ViewReviews = () => {
 
   const viewReviews = async () => {
     try {
-      const response = await axiosInstance.get(`product/view-reviews/${id}`);
-      setReviewData(response.data.data);
+      const reviewData = await getReviewData(id!);
+      setReviewData(reviewData);
       setIsLoading(false);
     } catch (err: any) {
       console.log(err);
@@ -52,7 +52,7 @@ const ViewReviews = () => {
               >
                 <Typography variant="body2">Rating: {review.rating}</Typography>
                 <Typography variant="body2">
-                  Reviewer Name: {review.reviewer_name}
+                  Reviewer Name: {review.reviewerName}
                 </Typography>
                 <Typography variant="body2">
                   Comment: {review.comment}

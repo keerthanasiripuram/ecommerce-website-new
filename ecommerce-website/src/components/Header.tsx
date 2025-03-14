@@ -44,13 +44,13 @@ const style = {
   overflowY: "auto",
 };
 
-type headerProps = {
+type HeaderProps = {
   changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   searchQuery?: string;
   enable?: boolean;
 };
 
-const Header: React.FC<headerProps> = ({
+const Header: React.FC<HeaderProps> = ({
   changeHandler,
   searchQuery,
   enable = true,
@@ -63,7 +63,7 @@ const Header: React.FC<headerProps> = ({
 
   const modalType = useModal((state) => state.modalData);
 
-  const CartData = useCart((state) => state.cartData);
+  const cartData = useCart((state) => state.cartData);
   const handleCart = () => {
     navigate("/add-to-cart");
   };
@@ -146,7 +146,7 @@ const Header: React.FC<headerProps> = ({
             color="inherit"
             onClick={handleCart}
           >
-            <Badge badgeContent={CartData.length} color="error">
+            <Badge badgeContent={cartData.length} color="error">
               <AddShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -250,7 +250,7 @@ const Header: React.FC<headerProps> = ({
               )}
               {decodedToken.role !== "admin" ? (
                 <IconButton size="large" color="inherit" onClick={handleCart}>
-                  <Badge badgeContent={CartData.length} color="error">
+                  <Badge badgeContent={cartData.length} color="error">
                     <AddShoppingCartIcon />
                   </Badge>
                 </IconButton>

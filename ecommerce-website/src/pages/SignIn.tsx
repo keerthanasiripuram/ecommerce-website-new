@@ -17,18 +17,18 @@ import { useModal } from "../store/UseModalType";
 import CustomTextField from "../customFields/CustomTextField";
 import axiosInstance from "../interceptors/interceptor";
 
-type loginState = {
+type LoginState = {
   email: string;
   password: string;
 };
 
-type signInProps = {
+type SignInProps = {
   onClose: () => void;
 };
 
-const SignIn = (props: signInProps) => {
+const SignIn = (props: SignInProps) => {
   //login data
-  const [loginFormData, setLoginFormData] = useState<loginState>({
+  const [loginFormData, setLoginFormData] = useState<LoginState>({
     email: "",
     password: "",
   });
@@ -96,7 +96,7 @@ const SignIn = (props: signInProps) => {
     if (validateForm()) {
       try {
         console.log(loginFormData);
-        const response = await axiosInstance.post("user/login", loginFormData);
+        const response = await axiosInstance.post("auth/login", loginFormData);
         localStorage.setItem("token", response.data.data);
         showSuccess(response.data.message);
         props.onClose();

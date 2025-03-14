@@ -1,70 +1,52 @@
-import { Order } from "../models/order-model";
-import {
-  order_products_db,
-  view_order_db,
-  view_orders_by_admin_db,
-  change_order_status_db,
-  cancel_order_db,
-} from "../repositories/order-repository";
+import { ChangeStatus, Order } from "../models/order-model";
+import { cancelOrderRepo, changeOrderStatusRepo, getOrdersByAdminRepo, getOrdersRepo, orderProductsRepo } from "../repositories/order-repository";
 
-export const order_products_service = async (
+export const orderProductsService = async (
   order: Order
 ): Promise<Order[]> => {
   try {
-    const order_data = await order_products_db(order);
-    return order_data;
+    const orderData = await orderProductsRepo(order);
+    return orderData;
   } catch (err) {
     console.error("Service error:", err);
     throw err;
   }
 };
 
-export const view_order_service = async (user_id: Number): Promise<Order[]> => {
+export const getOrdersService = async (user_id: Number): Promise<Order[]> => {
   try {
-    const view_order = await view_order_db(user_id);
-    return view_order;
+    const viewOrder = await getOrdersRepo(user_id);
+    return viewOrder;
   } catch (err) {
     console.error("Service error:", err);
     throw err;
   }
 };
 
-export const view_orders_by_admin_service = async (): Promise<Order[]> => {
+export const getOrdersByAdminService = async (): Promise<Order[]> => {
   try {
-    const user_data = await view_orders_by_admin_db();
-    return user_data;
+    const userData = await getOrdersByAdminRepo();
+    return userData;
   } catch (err) {
     console.error("Service error:", err);
     throw err;
   }
 };
 
-export const change_order_status_service = async (order: {
-  order_status: string;
-  user_id: number;
-  product_id: number;
-  order_id: number;
-  quantity: number;
-}): Promise<Order[]> => {
+export const changeOrderStatusService = async (changeStatusData:ChangeStatus): Promise<Order[]> => {
   try {
-    const order_data_status = await change_order_status_db(order);
-    return order_data_status;
+    const orderStatus = await changeOrderStatusRepo(changeStatusData);
+    return orderStatus;
   } catch (err) {
     console.error("Service error:", err);
     throw err;
   }
 };
 
-export const cancel_order_service = async (order: {
-  order_status: string;
-  user_id: number;
-  product_id: number;
-  order_id: number;
-  quantity: number;
-}): Promise<Order[]> => {
+export const cancelOrderService = async (changeStatusData:ChangeStatus): Promise<Order[]> => {
   try {
-    const order_data_status = await cancel_order_db(order);
-    return order_data_status;
+    const orderStatus = await cancelOrderRepo(changeStatusData);
+    return orderStatus;
   } catch (err) {
     console.error("Service error:", err);
     throw err;

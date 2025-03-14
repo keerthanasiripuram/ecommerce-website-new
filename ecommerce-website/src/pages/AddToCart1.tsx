@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import axiosInstance from "../interceptors/interceptor";
 
-export type reviewDataState = {
+export type ReviewState = {
   rating: number;
   comment: string;
   date: Date;
@@ -14,7 +14,7 @@ export type reviewDataState = {
   reviewerEmail: string;
 };
 
-export type productDataState = {
+export type ProductState = {
   id: number;
   title: string;
   description: string;
@@ -24,17 +24,17 @@ export type productDataState = {
   stock: number;
   images: string;
   quantity: number;
-  reviews?: Array<reviewDataState>;
+  reviews?: Array<ReviewState>;
 };
 const AddToCart1 = () => {
-  const [productData, setProductData] = useState<productDataState>();
+  const [productData, setProductData] = useState<ProductState>();
 
   //cartData and its opertns
-  const CartData = useCart((state) => state.cartData);
+  const cartData = useCart((state) => state.cartData);
 
   const totSum = useMemo(() => {
-    return CartData.reduce((tot, ele) => tot + ele.price * ele.quantity, 0);
-  }, [CartData]);
+    return cartData.reduce((tot, ele) => tot + ele.price * ele.quantity, 0);
+  }, [cartData]);
 
   const removeCartData = useCart((state) => state.removeCartData);
 
@@ -66,7 +66,7 @@ const AddToCart1 = () => {
 
   const getSingleProduct = async (id: number) => {
     try {
-      const response = await axiosInstance.get(`user/view-product/${id}`);
+      const response = await axiosInstance.get(`user/get-product/${id}`);
       return response.data.data;
     } catch (err: any) {
       console.log(err.response.data.message);
@@ -98,7 +98,7 @@ const AddToCart1 = () => {
       headerName: "Increment",
       width: 150,
       renderCell: (params) => {
-        const cartProduct = CartData.find((item) => item.id === params.row.id);
+        const cartProduct = cartData.find((item) => item.id === params.row.id);
         const isDisabled =
           cartProduct &&
           productData &&
@@ -137,7 +137,7 @@ const AddToCart1 = () => {
         {/* Material UI Virtualized Table */}
         <div style={{ display: "flex", flexDirection: "column", width: "90%" }}>
           <DataGrid
-            rows={CartData}
+            rows={cartData}
             columns={columns}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
@@ -148,9 +148,9 @@ const AddToCart1 = () => {
         {/* Summary & Checkout Button */}
         <Typography variant="h6">Total Price: ${totSum}</Typography>
         <Typography variant="h6">
-          No. of Cart Items: {CartData.length}
+          No. of Cart Items: {cartData.length}
         </Typography>
-        {CartData.length > 0 && (
+        {cartData.length > 0 && (
           <Button variant="contained" color="primary" onClick={checkNavigation}>
             Proceed to Buy
           </Button>

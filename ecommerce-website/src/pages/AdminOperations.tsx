@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../interceptors/interceptor";
 import AddProduct from "../components/AddProduct";
 
-export type productState = {
+export type ProductState = {
   id?: number;
   title: string;
   description: string;
@@ -19,7 +19,7 @@ export type productState = {
   price: number;
   rating: number;
   stock: number;
-  images: File | null;
+  image: File | null;
 };
 
 const style = {
@@ -39,14 +39,14 @@ const style = {
 function AdminOperations() {
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const [addProductData, setaddProductData] = useState<productState>({
+  const [addProductData, setaddProductData] = useState<ProductState>({
     title: "",
     description: "",
     category: "",
     price: NaN,
     rating: NaN,
     stock: NaN,
-    images: null,
+    image: null,
   });
 
   //handle modal
@@ -60,7 +60,7 @@ function AdminOperations() {
   };
 
   //view prdcts
-  const [productsData, setProductsData] = useState<productState[]>();
+  const [productsData, setProductsData] = useState<ProductState[]>();
 
   const handleAddProduct = () => {
     setIsUpdate(false);
@@ -73,7 +73,7 @@ function AdminOperations() {
 
   const viewProducts = async () => {
     try {
-      const response = await axiosInstance.get("admin/view-products");
+      const response = await axiosInstance.get("admin/get-products");
       console.log(response.data.message);
       setProductsData(response.data.data);
     } catch (err: any) {
@@ -93,17 +93,17 @@ function AdminOperations() {
   };
 
   //handle updating product
-  const [updateProductData, setupdateProductData] = useState<productState>({
+  const [updateProductData, setupdateProductData] = useState<ProductState>({
     title: "",
     description: "",
     category: "",
     price: NaN,
     rating: NaN,
     stock: NaN,
-    images: null,
+    image: null,
   });
 
-  const handleUpdateProduct = (product: productState) => {
+  const handleUpdateProduct = (product: ProductState) => {
     setIsUpdate(true);
     setupdateProductData(product);
     setOpen(true);
@@ -166,8 +166,8 @@ function AdminOperations() {
                   <p>Price: {product.price}</p>
                   <img
                     src={
-                      typeof product.images === "string"
-                        ? `http://localhost:3001/${product.images}`
+                      typeof product.image === "string"
+                        ? `http://localhost:3001/${product.image}`
                         : ""
                     }
                     alt={product.title}

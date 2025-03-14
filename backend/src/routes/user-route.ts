@@ -1,37 +1,24 @@
 import express from "express";
-import {
-  create_user,
-  login,
-  fetch_user,
-  update_profile,
-  view_product,
-  filtered_product,
-  view_product_by_id,
-} from "../controllers/user-controller";
-import {
-  verify_token,
-  check_role,
-} from "../middlewares/token-role-verification";
+import { getFilteredProducts, getProductById, getProducts, getUser, updateProfile } from "../controllers/user-controller";
+import { checkRole, verifyToken } from "../middlewares/token-role-verification";
 
 const router = express.Router();
 
-router.post("/register", create_user);
 
-router.post("/login", login);
 
-router.get("/view-products", view_product);
+router.get("/get-products", getProducts);
 
-router.get("/view-product/:id", view_product_by_id);
+router.get("/get-product/:id", getProductById);
 
-router.get("/fetch-user", verify_token, check_role("customer"), fetch_user);
+router.get("/get-user", verifyToken, checkRole("customer"), getUser);
 
 router.put(
   "/update-profile",
-  verify_token,
-  check_role("customer"),
-  update_profile
+  verifyToken,
+  checkRole("customer"),
+  updateProfile
 );
 
-router.get("/filtered-products", filtered_product);
+router.get("/get-filtered-products", getFilteredProducts);
 
 export default router;

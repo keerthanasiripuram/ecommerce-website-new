@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import CustomTextField from "../customFields/CustomTextField";
 import axiosInstance from "../interceptors/interceptor";
 
-type productState = {
+type ProductState = {
   id?: number;
   title: string;
   description: string;
@@ -18,16 +18,17 @@ type productState = {
   price: number;
   rating: number;
   stock: number;
-  images: File | null;
+  image: File | null;
 };
 
-type addProductProps = {
-  data: productState;
+type AddProductProps = {
+  data: ProductState;
   isUpdate: boolean;
   onClose: () => void;
 };
 
-const AddProduct = ({ data, isUpdate, onClose }: addProductProps) => {
+const AddProduct = ({ data, isUpdate, onClose }: AddProductProps) => {
+  console.log(data)
   //handle img
   const [image, setImage] = useState<File | null>(null);
 
@@ -37,11 +38,12 @@ const AddProduct = ({ data, isUpdate, onClose }: addProductProps) => {
   };
 
   //handle modal data
-  const [modalData, setModalData] = useState<productState>(data);
+  const [modalData, setModalData] = useState<ProductState>(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setModalData({ ...modalData, [name]: value });
+    console.log(modalData)
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +51,10 @@ const AddProduct = ({ data, isUpdate, onClose }: addProductProps) => {
 
     //create form-data
     const formData = new FormData();
-    formData.append("title", modalData.title);
+    console.log(formData)
+    console.log(modalData.title)
+    formData.append('title',modalData.title);
+    console.log(formData)
     formData.append("description", modalData.description);
     formData.append("category", modalData.category);
     formData.append("price", modalData.price.toString());
@@ -65,7 +70,7 @@ const AddProduct = ({ data, isUpdate, onClose }: addProductProps) => {
       if (!isUpdate) {
         console.log(formData);
         const response = await axiosInstance.post(
-          "admin/add-product",
+          "admin/post-product",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } },
         );

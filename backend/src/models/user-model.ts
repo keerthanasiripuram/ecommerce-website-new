@@ -1,5 +1,5 @@
 export interface User {
-  id?: number;
+  id?:number;
   name: string;
   email: string;
   mobile_number: string;
@@ -7,16 +7,16 @@ export interface User {
   confirm_password: string;
   role: string;
   address: string;
-  created_at?: Date;
+  created_at?:Date;
 }
 
-export type user_login_data = {
+export type UserLogin = {
   id: number;
   role: string;
   password: string;
 };
 
-export type fetch_user_data = {
+export type FetchUser = {
   name: string;
   email: string;
   role: string;
@@ -24,13 +24,12 @@ export type fetch_user_data = {
   address: string;
 };
 
-export type product_state = {
-  id: number;
+export type FilteredQuery={
+  category?: string;
   title: string;
-  description: string;
-  category: string;
-  price: number;
-  rating: number;
-  stock: number;
-  images: string;
-};
+  convertedRating: number;
+  minPrice: number;
+  maxPrice: number;
+  convertedCurrPage: number;
+}
+

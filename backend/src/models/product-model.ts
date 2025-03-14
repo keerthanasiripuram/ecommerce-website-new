@@ -7,8 +7,8 @@ export interface reviewData {
   id?: number;
 }
 export interface readViewData {
-  product_id: 10;
-  rating: 4;
+  product_id: number;
+  rating: number;
   comment: string;
   date: Date;
   reviewer_name: string;
@@ -25,4 +25,28 @@ export interface product {
   images: string;
   reviews: Array<reviewData>;
   created_at?: Date;
+}
+
+
+
+
+//updated
+export type ProductState = {
+  id?: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  rating: number;
+  stock: number;
+  image: string;
+};
+
+export type ReviewData={
+  rating: number;
+  comment: string;
+  date?: Date;
+  reviewerName: string;
+  reviewerEmail: string;
+  id?: number;
 }

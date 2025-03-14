@@ -2,14 +2,14 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import {
-  add_product,
-  delete_product,
-  update_product,
-  view_product,
+  deleteProduct,
+  getProducts,
+  postProduct,
+  updateProduct,
 } from "../controllers/admin-controller";
 import {
-  verify_token,
-  check_role,
+  verifyToken,
+  checkRole,
 } from "../middlewares/token-role-verification";
 
 const router = express.Router();
@@ -27,28 +27,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post(
-  "/add-product",
-  verify_token,
-  check_role("admin"),
+  "/post-product",
+  verifyToken,
+  checkRole("admin"),
   upload.single("image"),
-  add_product
+  postProduct
 );
 
-router.get("/view-products", verify_token, check_role("admin"), view_product);
+router.get("/get-products", verifyToken, checkRole("admin"), getProducts);
 
 router.delete(
   "/delete-product/:id",
-  verify_token,
-  check_role("admin"),
-  delete_product
+  verifyToken,
+  checkRole("admin"),
+  deleteProduct
 );
 
 router.put(
   "/update-product/:id",
-  verify_token,
-  check_role("admin"),
+  verifyToken,
+  checkRole("admin"),
   upload.single("image"),
-  update_product
+  updateProduct
 );
 
 export default router;

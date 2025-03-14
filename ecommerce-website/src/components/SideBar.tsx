@@ -1,7 +1,7 @@
 import { Typography, Box, Slider, Rating } from "@mui/material";
 import React from "react";
 
-type sideBarState = {
+type SideBarState = {
   priceRange: number[];
   rating: number | null;
   handlePriceChange: (e: Event, newValue: number | number[]) => void;
@@ -11,7 +11,7 @@ type sideBarState = {
   ) => void;
 };
 
-const SideBar = (props: sideBarState) => {
+const SideBar = (props: SideBarState) => {
   return (
     <Box>
       <Typography variant="h5"> Filters</Typography>

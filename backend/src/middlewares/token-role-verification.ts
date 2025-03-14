@@ -11,7 +11,7 @@ interface DecodedToken {
   role: string;
 }
 
-export const verify_token = (
+export const verifyToken = (
   req: CustomRequest,
   res: Response,
   next: NextFunction
@@ -41,7 +41,7 @@ export const verify_token = (
   }
 };
 
-export const check_role = (role: string): any => {
+export const checkRole = (role: string): any => {
   return (req: CustomRequest, res: Response, next: NextFunction) => {
     if (req.role !== role) {
       return res.status(403).send({ message: "Access Denied" });

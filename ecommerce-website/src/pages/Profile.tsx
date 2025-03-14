@@ -40,7 +40,7 @@ const Profile = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axiosInstance.get("user/fetch-user");
+      const response = await axiosInstance.get("user/get-user");
       setUserName(response.data.data.name);
       console.log(response.data.message);
     } catch (err: any) {

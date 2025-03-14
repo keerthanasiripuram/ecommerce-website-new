@@ -42,9 +42,9 @@ const Checkout = () => {
 
   const handleOrder = async () => {
     try {
-      const response = await axiosInstance.post("order/place-order", {
-        product_id_arr: productIdArr,
-        tot_sum: totSum,
+      const response = await axiosInstance.post("order/post-order", {
+        productIdArr,
+        totSum,
       });
 
       showSuccess(response.data.message);

@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-interface modalData {
+interface ModalData {
   type: string;
 }
 
-interface modalStore {
-  modalData: modalData;
+interface ModalStore {
+  modalData: ModalData;
   setType: (type: string) => void;
 }
 
-export const useModal = create<modalStore>((set) => ({
+export const useModal = create<ModalStore>((set) => ({
   modalData: {
     type: "sign-in",
   },

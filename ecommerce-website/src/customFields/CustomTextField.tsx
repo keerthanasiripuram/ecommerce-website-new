@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-type cutomTextFieldProps = {
+type CustomTextFieldProps = {
   label: string;
   name: string;
   changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,7 +9,7 @@ type cutomTextFieldProps = {
   value: string | number;
 };
 
-const CustomTextField = (props: cutomTextFieldProps) => {
+const CustomTextField = (props: CustomTextFieldProps) => {
   return (
     <TextField
       label={props.label}

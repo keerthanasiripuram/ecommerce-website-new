@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, CssBaseline, Drawer, Toolbar } from "@mui/material";
 
-interface pageLayoutProps {
+interface PageLayoutProps {
   children: React.ReactNode;
 }
 
 const drawerWidth = 250;
 
-const PageLayout = ({ children }: pageLayoutProps) => {
+const PageLayout = ({ children }: PageLayoutProps) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline></CssBaseline>

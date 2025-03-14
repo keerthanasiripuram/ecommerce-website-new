@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { StyledCard, StyledLink } from "../styledComponents/StyledComponent";
 import axiosInstance from "../interceptors/interceptor";
 
-type productContainerProps = {
+type ProductContainerProps = {
   path: string;
   searchQuery: string;
   priceRange: number[];
@@ -13,7 +13,7 @@ type productContainerProps = {
   handlePageChange: (e: React.ChangeEvent<unknown>, page: number) => void;
 };
 
-export type reviewDataState = {
+export type ReviewState = {
   rating: number;
   comment: string;
   date: Date;
@@ -21,7 +21,7 @@ export type reviewDataState = {
   reviewerEmail: string;
 };
 
-export type productDataState = {
+export type ProductState = {
   id: number;
   title: string;
   description: string;
@@ -31,7 +31,7 @@ export type productDataState = {
   stock: number;
   images: string;
   quantity: number;
-  reviews: Array<reviewDataState>;
+  reviews: Array<ReviewState>;
   tot_len?: number;
 };
 
@@ -42,19 +42,19 @@ const ProductContainer1 = ({
   rating,
   currentPage,
   handlePageChange,
-}: productContainerProps) => {
+}: ProductContainerProps) => {
   const [loading, setLoading] = useState(true);
 
   const [totLen, setTotLen] = useState(0);
 
   //set and get the prdctData
-  const [productData, setProductData] = useState<productDataState[]>([]);
+  const [productData, setProductData] = useState<ProductState[]>([]);
 
   const getFilteredProducts = async () => {
     try {
       const priceRangeParam = priceRange ? priceRange.join(",") : "";
       const response = await axiosInstance.get(
-        `user/filtered-products?category=${path}&searchquery=${searchQuery}&rating=${rating}&pricerange=${priceRangeParam}&page=${currentPage}`,
+        `user/get-filtered-products?category=${path}&searchquery=${searchQuery}&rating=${rating}&pricerange=${priceRangeParam}&page=${currentPage}`,
       );
       setProductData(response.data.data.rows);
       setTotLen(response.data.data.tot_len);

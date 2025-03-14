@@ -1,6 +1,6 @@
 import pool from "../db";
 import { CustomError } from "../errorObject";
-import { product, readViewData, reviewData } from "../models/product-model";
+import { product, readViewData, ReviewData, reviewData } from "../models/product-model";
 
 //sql queries
 /*****bulk store and fetch**********/
@@ -93,69 +93,46 @@ import { product, readViewData, reviewData } from "../models/product-model";
 //     client.release();
 //   }
 // }
-
-export const add_review_db = async (
-  reviewData: reviewData
-): Promise<readViewData> => {
+// type LocalReviewData={
+//   rating: number;
+//   comment: string;
+//   date?: Date;
+//   reviewerName: string;
+//   reviewerEmail: string;
+//   id?: number;
+// }
+export const postReviewToRepo = async (
+  reviewData: ReviewData
+): Promise<ReviewData> => {
   const client = await pool.connect();
 
-  const { reviewer_name, reviewer_email, rating, comment, id }: reviewData =
+  const { reviewerName, reviewerEmail, rating, comment, id }: ReviewData =
     reviewData;
 
-  try {
     const productId = Number(id);
+    console.log(productId)
+    const query = `INSERT INTO "reviews" (product_id,rating,comment,date,reviewer_name,reviewer_email) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
 
-    const query = `INSERT INTO "reviews2" (product_id,rating,comment,date,reviewer_name,reviewer_email) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
-
-    const result = await client.query(query, [
+    const result = await client.query<ReviewData>(query, [
       productId,
       rating,
       comment,
       new Date(),
-      reviewer_name,
-      reviewer_email,
+      reviewerName,
+      reviewerEmail,
     ]);
-
-    if (result.rowCount === 0) {
-      throw new CustomError("Review creation failed", 401);
-    }
-
-    return result.rows[0];
-  } catch (err: any) {
-    if (err.code) {
-      console.error("Database error:", err);
-
-      throw new CustomError("Database error occurred", 500);
-    }
-    throw err;
-  } finally {
     client.release();
-  }
+    return result.rows[0];
 };
 
-export const view_reviews_db = async (
+export const getReviewsFromRepo = async (
   productId: number
-): Promise<readViewData[]> => {
+): Promise<ReviewData[]> => {
   const client = await pool.connect();
 
-  try {
-    const query = `SELECT product_id,rating,comment,date,reviewer_name,reviewer_email FROM "reviews2" WHERE product_id = $1`;
+    const query = `SELECT product_id,rating,comment,date,reviewer_name,reviewer_email FROM "reviews" WHERE product_id = $1`;
 
-    const result = await client.query(query, [productId]);
-
-    if (result.rowCount === 0) {
-      throw new CustomError("Failed to fetch reviews", 404);
-    }
-
-    return result.rows;
-  } catch (err: any) {
-    if (err.code) {
-      console.error("Database error:", err);
-
-      throw new CustomError("Database error occurred", 500);
-    }
-    throw err;
-  } finally {
+    const result = await client.query<ReviewData>(query, [productId]);
     client.release();
-  }
+    return result.rows;
 };

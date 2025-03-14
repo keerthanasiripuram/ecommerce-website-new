@@ -3,14 +3,14 @@ import { jwtDecode } from "jwt-decode";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import axiosInstance from "../interceptors/interceptor";
 
-type orderState = {
-  order_id: number;
-  user_id: number;
-  total_amount: string;
-  order_status: string;
-  created_at: string;
-  order_item_id: number;
-  product_id: number;
+type OrderState = {
+  orderId: number;
+  userId: number;
+  totalAmount: string;
+  orderStatus: string;
+  createdAt: string;
+  orderItemId: number;
+  productId: number;
   quantity: number;
   title: number;
 };
@@ -40,11 +40,11 @@ const ViewOrders1 = () => {
     : { id: null, role: null };
 
   //set and get order data
-  const [orderData, setOrderData] = useState<orderState[]>([]);
+  const [orderData, setOrderData] = useState<OrderState[]>([]);
 
   const viewOrder = async () => {
     try {
-      const response = await axiosInstance.get("order/view-order");
+      const response = await axiosInstance.get("order/get-orders");
       setOrderData(response.data.data);
       setLoading(false);
     } catch (err) {
@@ -76,13 +76,13 @@ const ViewOrders1 = () => {
                     Quantity:{product.quantity}
                   </Typography>
                   <Typography variant="body2">
-                    Order status: {product.order_status}
+                    Order status: {product.orderStatus}
                   </Typography>
                   <Typography variant="body2">
-                    ${product.total_amount}
+                    ${product.totalAmount}
                   </Typography>
                   <Typography variant="body2">
-                    Order placed at:{product.created_at}
+                    Order placed at:{product.createdAt}
                   </Typography>
                 </CardContent>
               </Card>

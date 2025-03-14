@@ -11,14 +11,14 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axiosInstance from "../interceptors/interceptor";
 
-type orderState = {
-  order_id: number;
-  user_id: number;
-  total_amount: string;
-  order_status: string;
-  created_at: string;
-  order_item_id: number;
-  product_id: number;
+type OrderState = {
+  orderId: number;
+  userId: number;
+  totalAmount: string;
+  orderStatus: string;
+  createdAt: string;
+  orderItemId: number;
+  productId: number;
   quantity: number;
   title: string;
 };
@@ -27,7 +27,7 @@ const AdminDashBoard1 = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   //order dta & its operations
-  const [orderData, setOrderData] = useState<orderState[]>([]);
+  const [orderData, setOrderData] = useState<OrderState[]>([]);
 
   useEffect(() => {
     viewOrdersByAdmin();
@@ -35,7 +35,8 @@ const AdminDashBoard1 = () => {
 
   const viewOrdersByAdmin = async () => {
     try {
-      const response = await axiosInstance.get("order/view-orders-by-admin");
+      const response = await axiosInstance.get("order/get-orders-by-admin");
+      console.log(response.data.data)
       setOrderData(response.data.data);
       setIsLoading(false);
     } catch (err) {
@@ -100,19 +101,19 @@ const AdminDashBoard1 = () => {
   let pendingOrders = [];
 
   pendingOrders = useMemo(() => {
-    return orderData.filter((product) => product.order_status == "PENDING");
+    return orderData.filter((product) => product.orderStatus == "PENDING");
   }, [orderData]);
 
   let confirmedOrders = [];
 
   confirmedOrders = useMemo(() => {
-    return orderData.filter((product) => product.order_status == "CONFIRMED");
+    return orderData.filter((product) => product.orderStatus == "CONFIRMED");
   }, [orderData]);
 
   let cancelledOrders = [];
 
   cancelledOrders = useMemo(() => {
-    return orderData.filter((product) => product.order_status == "CANCEL");
+    return orderData.filter((product) => product.orderStatus == "CANCEL");
   }, [orderData]);
 
   //select the tab of data grid
@@ -164,18 +165,18 @@ const AdminDashBoard1 = () => {
                         Quantity: {product.quantity}
                       </Typography>
                       <Typography variant="body2">
-                        Status: {product.order_status}
+                        Status: {product.orderStatus}
                       </Typography>
                       <Typography variant="body2">
-                        Amount: ${product.total_amount}
+                        Amount: ${product.totalAmount}
                       </Typography>
                       <Button
                         variant="outlined"
                         onClick={() =>
                           handleConfirm({
-                            user_id: product.user_id,
-                            product_id: product.product_id,
-                            order_id: product.order_id,
+                            user_id: product.userId,
+                            product_id: product.productId,
+                            order_id: product.orderId,
                             quantity: product.quantity,
                           })
                         }
@@ -219,18 +220,18 @@ const AdminDashBoard1 = () => {
                         Quantity: {product.quantity}
                       </Typography>
                       <Typography variant="body2">
-                        Status: {product.order_status}
+                        Status: {product.orderStatus}
                       </Typography>
                       <Typography variant="body2">
-                        Amount: ${product.total_amount}
+                        Amount: ${product.totalAmount}
                       </Typography>
                       <Button
                         variant="outlined"
                         onClick={() =>
                           handleCancel({
-                            user_id: product.user_id,
-                            product_id: product.product_id,
-                            order_id: product.order_id,
+                            user_id: product.userId,
+                            product_id: product.productId,
+                            order_id: product.orderId,
                             quantity: product.quantity,
                           })
                         }
@@ -271,18 +272,18 @@ const AdminDashBoard1 = () => {
                         Quantity: {product.quantity}
                       </Typography>
                       <Typography variant="body2">
-                        Status: {product.order_status}
+                        Status: {product.orderStatus}
                       </Typography>
                       <Typography variant="body2">
-                        Amount: ${product.total_amount}
+                        Amount: ${product.totalAmount}
                       </Typography>
                       <Button
                         variant="outlined"
                         onClick={() =>
                           handleConfirm({
-                            user_id: product.user_id,
-                            product_id: product.product_id,
-                            order_id: product.order_id,
+                            user_id: product.userId,
+                            product_id: product.productId,
+                            order_id: product.orderId,
                             quantity: product.quantity,
                           })
                         }

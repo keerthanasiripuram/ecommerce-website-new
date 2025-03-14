@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
-  add_review_service,
-  view_reviews_service,
+  getReviewsService,
+  postReviewService,
 } from "../services/product-service";
-import { product, reviewData } from "../models/product-model";
+import { product, ReviewData, reviewData } from "../models/product-model";
 import { CustomError } from "../errorObject";
 
 /*********bulk fetch n stre**** */
@@ -60,57 +60,32 @@ import { CustomError } from "../errorObject";
 //   }
 // }
 
-export const add_review = async (req: Request, res: Response): Promise<any> => {
+export const postReview = async (req: Request, res: Response,next: NextFunction): Promise<any> => {
   try {
-    const { reviewer_name, reviewer_email, rating, comment, id }: reviewData =
-      req.body;
-
-    const product_response = await add_review_service({
-      reviewer_name,
-      reviewer_email,
-      rating,
-      comment,
-      id,
-    });
-
-    return res.status(201).json({ message: "Revie added successfully" });
+    await postReviewService(req.body as ReviewData);
+    return res.status(201).json({ message: "Review added successfully" });
   } catch (err: any) {
-    if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({
-        message: err.message,
-      });
-    }
-
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    next(err)
   }
 };
 
-export const view_reviews = async (
+export const getReviews = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<any> => {
   try {
     const id: string = req.params.id;
 
     const productId = parseInt(id, 10);
 
-    const product_response = await view_reviews_service(productId);
+    const productResponse = await getReviewsService(productId);
 
     return res.status(200).json({
-      message: "Revies fetched successfully",
-      data: product_response,
+      message: "Reviews fetched successfully",
+      data: productResponse,
     });
   } catch (err: any) {
-    if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({
-        message: err.message,
-      });
-    }
-
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    next(err)
   }
 };

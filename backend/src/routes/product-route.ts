@@ -1,11 +1,11 @@
 import express from "express";
-import { add_review, view_reviews } from "../controllers/product-controller";
-import { verify_token } from "../middlewares/token-role-verification";
+import { verifyToken } from "../middlewares/token-role-verification";
+import { getReviews, postReview } from "../controllers/product-controller";
 
 const router = express.Router();
 
-router.post("/add-review", verify_token, add_review);
+router.post("/post-review", verifyToken, postReview);
 
-router.get("/view-reviews/:id", view_reviews);
+router.get("/get-reviews/:id", getReviews);
 
 export default router;

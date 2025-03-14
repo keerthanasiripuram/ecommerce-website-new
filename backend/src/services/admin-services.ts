@@ -1,58 +1,48 @@
+import { ProductState } from "../models/product-model";
 import {
-  add_product_db,
-  delete_product_db,
-  update_product_db,
-  view_product_db,
+  deleteProductFromRepo,
+  getProductsFromRepo,
+  postProductToRepo,
+  updateProductInRepo,
 } from "../repositories/admin-repository";
 
-type product_state = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  rating: number;
-  stock: number;
-  images: string;
-};
-
-export const add_product_service = async (
-  product_data: product_state
-): Promise<product_state> => {
+export const postProductService = async (
+  productData: ProductState
+): Promise<ProductState> => {
   try {
-    const created_product = await add_product_db(product_data);
-    return created_product;
+    const postedProduct = await postProductToRepo(productData);
+    return postedProduct;
   } catch (err) {
     throw err;
   }
 };
 
-export const view_product_service = async (): Promise<product_state[]> => {
+export const getProductsService = async (): Promise<ProductState[]> => {
   try {
-    const view_product = await view_product_db();
-    return view_product;
+    const products = await getProductsFromRepo();
+    return products;
   } catch (err) {
     throw err;
   }
 };
 
-export const delete_product_service = async (
-  product_id: number
-): Promise<product_state> => {
+export const deleteProductService = async (
+  productId: number
+): Promise<ProductState> => {
   try {
-    const deleted_product = await delete_product_db(product_id);
-    return deleted_product;
+    const deletedProduct = await deleteProductFromRepo(productId);
+    return deletedProduct;
   } catch (err) {
     throw err;
   }
 };
 
-export const update_product_service = async (
-  product_data: product_state
-): Promise<product_state> => {
+export const updateProductService = async (
+  productData: ProductState
+): Promise<ProductState> => {
   try {
-    const updated_product = await update_product_db(product_data);
-    return updated_product;
+    const updatedProduct = await updateProductInRepo(productData);
+    return updatedProduct;
   } catch (err) {
     throw err;
   }

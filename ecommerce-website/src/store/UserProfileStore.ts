@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface userProfileData {
+interface UserProfileData {
   name: string;
   email: string;
   mobilenumber: string;
@@ -10,12 +10,12 @@ interface userProfileData {
   address: string;
 }
 
-interface userProfileStore {
-  userProfileData: userProfileData;
-  setData: (field: keyof userProfileData, value: string) => void;
+interface UserProfileStore {
+  userProfileData: UserProfileData;
+  setData: (field: keyof UserProfileData, value: string) => void;
 }
 
-export const useUserProfile = create<userProfileStore>((set) => ({
+export const useUserProfile = create<UserProfileStore>((set) => ({
   userProfileData: {
     name: "",
     email: "",
