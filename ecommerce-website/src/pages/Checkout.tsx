@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Registration from "./Registration";
 import { useCart } from "../store/UseCartStore";
 import axiosInstance from "../interceptors/interceptor";
+import CustomSnackBar from "../customFields/CustomSnackBar";
 
 const style = {
   position: "absolute",
@@ -152,7 +153,7 @@ const Checkout = () => {
       </Box>
 
       {/* snackbar to hndle err msgs */}
-      <Snackbar
+      {/* <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
@@ -164,8 +165,14 @@ const Checkout = () => {
         >
           {snackbarMessage}
         </Alert>
-      </Snackbar>
-
+      </Snackbar> */}
+              <CustomSnackBar
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+      />
+      
       {/* modal to enter/update address */}
       <Modal
         open={open}

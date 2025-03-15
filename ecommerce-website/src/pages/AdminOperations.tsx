@@ -10,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../interceptors/interceptor";
 import AddProduct from "../components/AddProduct";
+import CustomModal from "../customFields/CustomModal";
+import DisplayProducts from "../components/DisplayProducts";
 
 export type ProductState = {
   id?: number;
@@ -136,7 +138,7 @@ function AdminOperations() {
         </Button>
 
         {/* disly products*/}
-        {productsData && (
+        {/* {productsData && (
           <div
             style={{
               display: "flex",
@@ -210,8 +212,8 @@ function AdminOperations() {
               </div>
             ))}
           </div>
-        )}
-
+        )} */}
+        <DisplayProducts productsData={productsData||[]} handleUpdateProduct={handleUpdateProduct} handleDelete={handleDelete}/>
         {/* shows addprdct/update prdct based on isupdate value */}
         <Modal
           open={open}
@@ -245,6 +247,15 @@ function AdminOperations() {
             )}
           </Box>
         </Modal>
+        {/* <CustomModal
+          open={open}
+          onClose={handleClose}
+          formType="product" // CustomModal can handle product-related forms
+          productData={isUpdate ? addProductData : updateProductData}
+          isUpdate={isUpdate}
+        /> */}
+
+
       </Paper>
     </>
   );

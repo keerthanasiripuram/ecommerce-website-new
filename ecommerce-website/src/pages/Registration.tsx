@@ -21,6 +21,7 @@ import axiosInstance from "../interceptors/interceptor";
 import CustomTextField from "../customFields/CustomTextField";
 import { useUserProfile } from "../store/UserProfileStore";
 import { useModal } from "../store/UseModalType";
+import CustomSnackBar from "../customFields/CustomSnackBar";
 
 export type RegisterState = {
   name: string;
@@ -355,7 +356,7 @@ const Registration = (props: RegisterProps) => {
         </Box>
 
         {/* Snackbar for error messages */}
-        <Snackbar
+        {/* <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
@@ -367,7 +368,14 @@ const Registration = (props: RegisterProps) => {
           >
             {snackbarMessage}
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
+        <CustomSnackBar
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+      />
+
       </Paper>
     </Container>
   );

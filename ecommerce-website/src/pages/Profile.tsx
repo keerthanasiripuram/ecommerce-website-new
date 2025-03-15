@@ -6,6 +6,7 @@ import Registration from "./Registration";
 import Header from "../components/Header";
 import axiosInstance from "../interceptors/interceptor";
 import ViewOrders1 from "./ViewOrders1";
+import CustomModal from "../customFields/CustomModal";
 
 const style = {
   position: "absolute",
@@ -125,7 +126,7 @@ const Profile = () => {
       </Card>
 
       {/* modal to open registration form */}
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -144,7 +145,13 @@ const Profile = () => {
           </IconButton>
           <Registration onClose={handleClose} />
         </Box>
-      </Modal>
+      </Modal> */}
+            <CustomModal
+        open={open}
+        onClose={handleClose}
+        formType="register"  // You can change this to 'login' if needed
+      />
+
     </>
   );
 };

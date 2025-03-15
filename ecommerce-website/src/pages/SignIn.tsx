@@ -16,6 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useModal } from "../store/UseModalType";
 import CustomTextField from "../customFields/CustomTextField";
 import axiosInstance from "../interceptors/interceptor";
+import CustomSnackBar from "../customFields/CustomSnackBar";
 
 type LoginState = {
   email: string;
@@ -175,7 +176,7 @@ const SignIn = (props: SignInProps) => {
           </Grid>
         </Box>
         {/* snackbar implementation */}
-        <Snackbar
+        {/* <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
@@ -187,7 +188,13 @@ const SignIn = (props: SignInProps) => {
           >
             {snackbarMessage}
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
+                <CustomSnackBar
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+      />
       </Paper>
     </Container>
   );

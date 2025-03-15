@@ -29,6 +29,9 @@ import Login from "../pages/SignIn";
 import { useCart } from "../store/UseCartStore";
 import Registration from "../pages/Registration";
 import { useModal } from "../store/UseModalType";
+import CustomModal from "../customFields/CustomModal";
+import MobileComponent from "./MobileComponent";
+import SearchComponent from "./SearchComponent";
 
 const style = {
   position: "absolute",
@@ -63,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const modalType = useModal((state) => state.modalData);
 
-  const cartData = useCart((state) => state.cartData);
+  const CartData = useCart((state) => state.cartData);
   const handleCart = () => {
     navigate("/add-to-cart");
   };
@@ -90,98 +93,106 @@ const Header: React.FC<HeaderProps> = ({
     navigate("/");
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+  //   React.useState<null | HTMLElement>(null);
+
+  // const isMenuOpen = Boolean(anchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  // const handleMobileMenuClose = useCallback(() => {
+  //   setMobileMoreAnchorEl(null);
+  // }, []);
+
+  // const handleMobileMenuOpen = useCallback(
+  //   (event: React.MouseEvent<HTMLElement>) => {
+  //     setMobileMoreAnchorEl(event.currentTarget);
+  //   },
+  //   [],
+  // );
+
+  const menuId = "primary-search-account-menu";
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleMobileMenuClose = useCallback(() => {
-    setMobileMoreAnchorEl(null);
-  }, []);
-
+  React.useState<null | HTMLElement>(null);
   const handleMobileMenuOpen = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       setMobileMoreAnchorEl(event.currentTarget);
     },
     [],
   );
-
-  const menuId = "primary-search-account-menu";
-  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        {token && decodedToken.role === "admin" && (
-          <IconButton
-            size="large"
-            aria-label="show logout "
-            color="inherit"
-            onClick={handleLogOut}
-          >
-            <LogoutIcon />
-          </IconButton>
-        )}
-      </MenuItem>
-      <MenuItem>
-        {decodedToken.role !== "admin" ? (
-          <IconButton
-            size="large"
-            aria-label="show cart number"
-            color="inherit"
-            onClick={handleCart}
-          >
-            <Badge badgeContent={cartData.length} color="error">
-              <AddShoppingCartIcon />
-            </Badge>
-          </IconButton>
-        ) : (
-          <IconButton
-            size="large"
-            aria-label="show dash board"
-            color="inherit"
-            onClick={handleDashBoard}
-          >
-            <DashboardIcon />
-          </IconButton>
-        )}
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          edge="end"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          onClick={handleOpen}
-          color="inherit"
-          style={{ display: "flex" }}
-        >
-          <AccountCircle />
-        </IconButton>
-        {decodedToken.role === "admin" ? (
-          ""
-        ) : token ? (
-          <p style={{ fontSize: "10px" }}>Profile</p>
-        ) : (
-          <p style={{ fontSize: "10px" }}>Login</p>
-        )}
-      </MenuItem>
-    </Menu>
+    // <Menu
+    //   anchorEl={mobileMoreAnchorEl}
+    //   anchorOrigin={{
+    //     vertical: "top",
+    //     horizontal: "right",
+    //   }}
+    //   id={mobileMenuId}
+    //   keepMounted
+    //   transformOrigin={{
+    //     vertical: "top",
+    //     horizontal: "right",
+    //   }}
+    //   open={isMobileMenuOpen}
+    //   onClose={handleMobileMenuClose}
+    // >
+    //   <MenuItem>
+    //     {token && decodedToken.role === "admin" && (
+    //       <IconButton
+    //         size="large"
+    //         aria-label="show logout "
+    //         color="inherit"
+    //         onClick={handleLogOut}
+    //       >
+    //         <LogoutIcon />
+    //       </IconButton>
+    //     )}
+    //   </MenuItem>
+    //   <MenuItem>
+    //     {decodedToken.role !== "admin" ? (
+    //       <IconButton
+    //         size="large"
+    //         aria-label="show cart number"
+    //         color="inherit"
+    //         onClick={handleCart}
+    //       >
+    //         <Badge badgeContent={CartData.length} color="error">
+    //           <AddShoppingCartIcon />
+    //         </Badge>
+    //       </IconButton>
+    //     ) : (
+    //       <IconButton
+    //         size="large"
+    //         aria-label="show dash board"
+    //         color="inherit"
+    //         onClick={handleDashBoard}
+    //       >
+    //         <DashboardIcon />
+    //       </IconButton>
+    //     )}
+    //   </MenuItem>
+    //   <MenuItem>
+    //     <IconButton
+    //       size="large"
+    //       edge="end"
+    //       aria-label="account of current user"
+    //       aria-haspopup="true"
+    //       onClick={handleOpen}
+    //       color="inherit"
+    //       style={{ display: "flex" }}
+    //     >
+    //       <AccountCircle />
+    //     </IconButton>
+    //     {decodedToken.role === "admin" ? (
+    //       ""
+    //     ) : token ? (
+    //       <p style={{ fontSize: "10px" }}>Profile</p>
+    //     ) : (
+    //       <p style={{ fontSize: "10px" }}>Login</p>
+    //     )}
+    //   </MenuItem>
+    // </Menu>
+    <MobileComponent cartData={CartData} handleCart={handleCart} handleDashBoard={handleDashBoard} handleLogOut={handleLogOut} handleOpen={handleOpen} mobileMoreAnchorEl={mobileMoreAnchorEl} setMobileMoreAnchorEl={setMobileMoreAnchorEl}/>
   );
 
   return (
@@ -211,28 +222,29 @@ const Header: React.FC<HeaderProps> = ({
               </Typography>
             </StyledLink>
             {enable && (
-              <Search>
-                <TextField
-                  value={searchQuery}
-                  onChange={changeHandler}
-                  placeholder="Search product"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "& input": {
-                      color: "white",
-                    },
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon style={{ color: "#ffffff" }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Search>
+              // <Search>
+              //   <TextField
+              //     value={searchQuery}
+              //     onChange={changeHandler}
+              //     placeholder="Search product"
+              //     variant="outlined"
+              //     fullWidth
+              //     size="small"
+              //     sx={{
+              //       "& input": {
+              //         color: "white",
+              //       },
+              //     }}
+              //     InputProps={{
+              //       startAdornment: (
+              //         <InputAdornment position="start">
+              //           <SearchIcon style={{ color: "#ffffff" }} />
+              //         </InputAdornment>
+              //       ),
+              //     }}
+              //   />
+              // </Search>
+              <SearchComponent searchQuery={searchQuery} changeHandler={changeHandler}/>
             )}
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -250,7 +262,7 @@ const Header: React.FC<HeaderProps> = ({
               )}
               {decodedToken.role !== "admin" ? (
                 <IconButton size="large" color="inherit" onClick={handleCart}>
-                  <Badge badgeContent={cartData.length} color="error">
+                  <Badge badgeContent={CartData.length} color="error">
                     <AddShoppingCartIcon />
                   </Badge>
                 </IconButton>
@@ -300,7 +312,7 @@ const Header: React.FC<HeaderProps> = ({
       </Box>
 
       {/* modal to display register or login based on modaltype*/}
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -323,7 +335,12 @@ const Header: React.FC<HeaderProps> = ({
             <Registration onClose={handleClose} />
           )}
         </Box>
-      </Modal>
+      </Modal> */}
+      <CustomModal
+        open={open}
+        onClose={handleClose}
+        formType={modalType.type === "sign-in" ? "login" : "register"}  // Pass the appropriate form type based on modalType
+      />
 
       {/* display body content */}
       <Box sx={{ marginTop: "50px" }}>
