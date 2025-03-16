@@ -17,7 +17,8 @@ import { useCart } from "../store/UseCartStore";
 import Header from "../components/Header";
 import axiosInstance from "../interceptors/interceptor";
 import { jwtDecode } from "jwt-decode";
-import { Loaderstyle } from "../styledComponents/StyledComponent";
+import { loaderStyle } from "../styledComponents/StyledComponent";
+import CustomModal from "../customFields/CustomModal";
 
 const style = {
   position: "absolute",
@@ -96,24 +97,23 @@ const ProductPage1 = () => {
   //modal dta & handlers
   const [open, setOpen] = React.useState(false);
 
-  // const handleOpen = useCallback(() => {
-  //   setOpen(true);
-  // }, []);
-
   const handleOpen = () => {
+    console.log("helloaefgh")
     setOpen(true);
-  };
+    
+  }
+  console.log(open)
 
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = () => setOpen(false);
 
   //open/clse review modal
   const [reviewOpen, setReviewOpen] = useState(false);
 
-  const handleOpenReview = useCallback(() => {
+  const handleOpenReview = () => {
     setReviewOpen(true);
-  }, []);
+  }
 
-  const handleCloseReview = useCallback(() => setReviewOpen(false), []);
+  const handleCloseReview = () => setReviewOpen(false);
 
   //enable/disable addtocart btn bsd on stck data
   const [disable, setDisable] = useState(false);
@@ -131,10 +131,8 @@ const ProductPage1 = () => {
   return (
     <>
       <Header enable={false} />
-
-      <div>
         {isLoading ? (
-          <Box sx={Loaderstyle}></Box>
+          <Box sx={loaderStyle}></Box>
         ) : !productData ? (
           <h2>No Product Found</h2>
         ) : (
@@ -200,7 +198,7 @@ const ProductPage1 = () => {
         {/* modals to add review/view review  */}
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={handleClose} 
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -215,10 +213,14 @@ const ProductPage1 = () => {
             >
               <CloseIcon />
             </IconButton>
-            <AddReview handleClose={handleClose} />
+            <AddReview handleClose={handleClose}/>
           </Box>
         </Modal>
-
+        {/* <CustomModal
+        open={open}
+        onClose={handleClose}
+        formType={"add-review"}// Pass the appropriate form type based on modalType
+      /> */}
         <Modal
           open={reviewOpen}
           onClose={handleCloseReview}
@@ -239,7 +241,11 @@ const ProductPage1 = () => {
             <ViewReviews />
           </Box>
         </Modal>
-      </div>
+                {/* <CustomModal
+        open={reviewOpen}
+        onClose={handleCloseReview}
+        formType={"view-review"}// Pass the appropriate form type based on modalType
+      /> */}
     </>
   );
 };

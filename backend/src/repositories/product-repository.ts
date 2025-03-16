@@ -105,12 +105,13 @@ export const postReviewToRepo = async (
   reviewData: ReviewData
 ): Promise<ReviewData> => {
   const client = await pool.connect();
-
+  console.log("connection")
   const { reviewerName, reviewerEmail, rating, comment, id }: ReviewData =
     reviewData;
 
     const productId = Number(id);
     console.log(productId)
+    console.log(reviewerName, reviewerEmail, rating, comment, id)
     const query = `INSERT INTO "reviews" (product_id,rating,comment,date,reviewer_name,reviewer_email) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
 
     const result = await client.query<ReviewData>(query, [
@@ -121,6 +122,7 @@ export const postReviewToRepo = async (
       reviewerName,
       reviewerEmail,
     ]);
+    console.log(result)
     client.release();
     return result.rows[0];
 };

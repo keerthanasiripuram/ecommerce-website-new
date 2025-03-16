@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import axiosInstance from "../interceptors/interceptor";
+import { loaderStyle } from "../styledComponents/StyledComponent";
 
 type OrderState = {
   orderId: number;
@@ -13,21 +14,6 @@ type OrderState = {
   productId: number;
   quantity: number;
   title: number;
-};
-
-const style = {
-  borderRadius: "50%",
-  height: "25px",
-  width: "25px",
-  margin: "auto",
-  marginTop: "15px",
-  border: "2px solid blue",
-  borderTopColor: "transparent",
-  animation: "spin 1s linear infinite",
-  "@keyframes spin": {
-    "0%": { transform: "rotate(0deg)" },
-    "100%": { transform: "rotate(360deg)" },
-  },
 };
 
 const ViewOrders1 = () => {
@@ -62,7 +48,7 @@ const ViewOrders1 = () => {
     <>
       <Grid container sx={{ display: "flex", gap: 1 }}>
         {loading ? (
-          <Box style={style}></Box>
+          <Box style={loaderStyle}></Box>
         ) : orderData && orderData.length > 0 ? (
           orderData.map((product, index) => (
             <Grid item sx={{ width: "100%" }}>

@@ -6,21 +6,6 @@ import SideBar from "../components/SideBar";
 import ProductContainer1 from "../components/ProductContainer1";
 const PageLayout = lazy(() => import("../components/PageLayout"));
 
-const loadingStyle = {
-  borderRadius: "50%",
-  height: "25px",
-  width: "25px",
-  margin: "auto",
-  marginTop: "15px",
-  border: "2px solid blue",
-  borderTopColor: "transparent",
-  animation: "spin 1s linear infinite",
-  "@keyframes spin": {
-    "0%": { transform: "rotate(0deg)" },
-    "100%": { transform: "rotate(360deg)" },
-  },
-};
-
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const path = useLocation().pathname.slice(1);
@@ -84,8 +69,6 @@ const Products = () => {
       <Box>
         <Header searchQuery={searchQuery} changeHandler={handleChange} />
       </Box>
-
-      <Suspense fallback={<Box sx={loadingStyle}></Box>}>
         <PageLayout>
           <SideBar
             priceRange={priceRange}
@@ -102,7 +85,6 @@ const Products = () => {
             handlePageChange={handlePageChange}
           />
         </PageLayout>
-      </Suspense>
     </>
   );
 };

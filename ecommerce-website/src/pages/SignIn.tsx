@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import {
   Avatar,
   Container,
@@ -17,6 +16,7 @@ import { useModal } from "../store/UseModalType";
 import CustomTextField from "../customFields/CustomTextField";
 import axiosInstance from "../interceptors/interceptor";
 import CustomSnackBar from "../customFields/CustomSnackBar";
+import SignInForm from "../components/SignInForm";
 
 type LoginState = {
   email: string;
@@ -34,21 +34,11 @@ const SignIn = (props: SignInProps) => {
     password: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
-  };
-
-  //modalType
-  const setModalType = useModal((state) => state.setType);
-
-  const handleModalType = () => {
-    setModalType("register");
-  };
+  
 
   //snackbar hndlrs
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+
 
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
@@ -76,41 +66,7 @@ const SignIn = (props: SignInProps) => {
     [],
   );
 
-  //validating login form data
-  const validateForm = (): boolean => {
-    if (!loginFormData.email.trim()) {
-      showError("Email is required");
-      return false;
-    } else if (!/\S+@\S+\.\S+/.test(loginFormData.email)) {
-      showError("Email is invalid");
-      return false;
-    }
-    if (!loginFormData.password.trim()) {
-      showError("Password is required");
-      return false;
-    }
-    return true;
-  };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        console.log(loginFormData);
-        const response = await axiosInstance.post("auth/login", loginFormData);
-        localStorage.setItem("token", response.data.data);
-        showSuccess(response.data.message);
-        props.onClose();
-      } catch (err: any) {
-        showError(err.response.data.message);
-      }
-      // finally {
-      //   props.onClose();
-      // }
-    } else {
-      console.log("Failed validations");
-    }
-  };
 
   return (
     <Container maxWidth="xs">
@@ -131,8 +87,15 @@ const SignIn = (props: SignInProps) => {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
+        <SignInForm 
+          loginFormData={loginFormData} 
+          setLoginFormData={setLoginFormData} 
+          onClose={props.onClose} 
+          showError={showError}
+          showSuccess={showSuccess}
+        />
 
-        <Box component="form" sx={{ mt: 2 }} onSubmit={handleSubmit}>
+        {/* <Box component="form" sx={{ mt: 2 }} onSubmit={handleSubmit}>
           <CustomTextField
             value={loginFormData.email}
             label={"Email"}
@@ -174,7 +137,7 @@ const SignIn = (props: SignInProps) => {
               </div>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
         {/* snackbar implementation */}
         {/* <Snackbar
           open={snackbarOpen}

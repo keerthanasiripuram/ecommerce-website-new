@@ -23,4 +23,4 @@ const CustomSnackBar: React.FC<CustomSnackBarProps> = ({
   );
 };
 
-export default CustomSnackBar;
+export default React.memo(CustomSnackBar);

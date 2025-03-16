@@ -8,15 +8,13 @@ import {
 import { CustomError } from "../errorObject";
 import { ProductState } from "../models/product-model";
 
-
-
 export const postProduct = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
     const productData: ProductState = req.body;
-//check id r we gtng by rmvng it in ? in prdcrstate, if nt prsnt thn y is it nt gvng err
+    //check id r we gtng by rmvng it in ? in prdcrstate, if nt prsnt thn y is it nt gvng err
     const imagePath = req.file ? req.file.path : null;
     if (imagePath) {
       productData.image = imagePath;

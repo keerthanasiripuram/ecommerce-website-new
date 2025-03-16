@@ -14,7 +14,7 @@ import CustomModal from "../customFields/CustomModal";
 import DisplayProducts from "../components/DisplayProducts";
 
 export type ProductState = {
-  id?: number;
+  // id?: number;
   title: string;
   description: string;
   category: string;
@@ -45,16 +45,14 @@ function AdminOperations() {
     title: "",
     description: "",
     category: "",
-    price: NaN,
-    rating: NaN,
-    stock: NaN,
+    price: 0,
+    rating: 0,
+    stock: 0,
     image: null,
   });
 
   //handle modal
   const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
     setOpen(false);
@@ -99,9 +97,9 @@ function AdminOperations() {
     title: "",
     description: "",
     category: "",
-    price: NaN,
-    rating: NaN,
-    stock: NaN,
+    price: 0,
+    rating: 0,
+    stock: 0,
     image: null,
   });
 
@@ -247,14 +245,27 @@ function AdminOperations() {
             )}
           </Box>
         </Modal>
-        {/* <CustomModal
+{/* {!isUpdate?(<CustomModal
+open={open}
+        data={addProductData}
+        isUpdate={isUpdate}
+        onClose={handleClose}
+        formType={"add-product"}// Pass the appropriate form type based on modalType
+      />):(<CustomModal
+      open={open}
+        data={updateProductData}
+        isUpdate={isUpdate}
+        onClose={handleClose}
+        formType={"update-product"}// Pass the appropriate form type based on modalType
+      />)} */}
+{/* <CustomModal
           open={open}
-          onClose={handleClose}
-          formType="product" // CustomModal can handle product-related forms
-          productData={isUpdate ? addProductData : updateProductData}
+          data={isUpdate ? updateProductData : addProductData || { title: '', description: '', category: '', price: 0, rating: 0, stock: 0, image: null }}  
+          // data={isUpdate ? updateProductData : addProductData}  // Pass single product (either addProductData or updateProductData)
           isUpdate={isUpdate}
+          onClose={handleClose}
+          formType={isUpdate ? "update-product" : "add-product"}
         /> */}
-
 
       </Paper>
     </>

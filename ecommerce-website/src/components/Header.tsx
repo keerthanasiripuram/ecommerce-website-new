@@ -1,51 +1,25 @@
 import * as React from "react";
-import { useCallback } from "react";
+import { Suspense, useCallback } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import CloseIcon from "@mui/icons-material/Close";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import LogoutIcon from "@mui/icons-material/Logout";
 import {
-  Modal,
-  TextField,
   AppBar,
   Box,
   Toolbar,
   IconButton,
   Typography,
-  Badge,
-  MenuItem,
-  Menu,
-  InputAdornment,
 } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { Outlet } from "react-router-dom";
-import { Search, StyledLink } from "../styledComponents/StyledComponent";
-import Login from "../pages/SignIn";
+import { StyledLink } from "../styledComponents/StyledComponent";
 import { useCart } from "../store/UseCartStore";
-import Registration from "../pages/Registration";
 import { useModal } from "../store/UseModalType";
-import CustomModal from "../customFields/CustomModal";
-import MobileComponent from "./MobileComponent";
 import SearchComponent from "./SearchComponent";
+import DesktopHeader from "./DesktopHeader";
+const CustomModal = React.lazy(() => import("../customFields/CustomModal"));
+const MobileComponent=React.lazy(()=>import( "./MobileComponent"));
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 1,
-  maxHeight: "80vh",
-  overflowY: "auto",
-};
 
 type HeaderProps = {
   changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -67,13 +41,13 @@ const Header: React.FC<HeaderProps> = ({
   const modalType = useModal((state) => state.modalData);
 
   const CartData = useCart((state) => state.cartData);
-  const handleCart = () => {
+  const handleCart = React.useCallback(() => {
     navigate("/add-to-cart");
-  };
+  },[]);
 
   //handle modal
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
+  const handleOpen = React.useCallback(() => {
     if (token && decodedToken.role == "customer") {
       navigate("/profile");
     } else if (token && decodedToken.role == "admin") {
@@ -81,17 +55,17 @@ const Header: React.FC<HeaderProps> = ({
     } else {
       setOpen(true);
     }
-  };
+  },[token,decodedToken.role])
   const handleClose = React.useCallback(() => setOpen(false), []);
 
-  const handleDashBoard = () => {
+  const handleDashBoard = React.useCallback(() => {
     navigate("/admin-dashboard");
-  };
+  },[]);
 
-  const handleLogOut = () => {
+  const handleLogOut = React.useCallback(() => {
     localStorage.removeItem("token");
     navigate("/");
-  };
+  },[]);
 
   // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -111,7 +85,6 @@ const Header: React.FC<HeaderProps> = ({
   //   [],
   // );
 
-  const menuId = "primary-search-account-menu";
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
   React.useState<null | HTMLElement>(null);
   const handleMobileMenuOpen = useCallback(
@@ -192,7 +165,10 @@ const Header: React.FC<HeaderProps> = ({
     //     )}
     //   </MenuItem>
     // </Menu>
-    <MobileComponent cartData={CartData} handleCart={handleCart} handleDashBoard={handleDashBoard} handleLogOut={handleLogOut} handleOpen={handleOpen} mobileMoreAnchorEl={mobileMoreAnchorEl} setMobileMoreAnchorEl={setMobileMoreAnchorEl}/>
+    <Suspense>
+      <MobileComponent cartData={CartData} handleCart={handleCart} handleDashBoard={handleDashBoard} handleLogOut={handleLogOut} handleOpen={handleOpen} mobileMoreAnchorEl={mobileMoreAnchorEl} setMobileMoreAnchorEl={setMobileMoreAnchorEl}/>
+    </Suspense>
+    
   );
 
   return (
@@ -247,54 +223,7 @@ const Header: React.FC<HeaderProps> = ({
               <SearchComponent searchQuery={searchQuery} changeHandler={changeHandler}/>
             )}
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              {token && decodedToken.role === "admin" ? (
-                <IconButton
-                  size="large"
-                  aria-label="show log out "
-                  color="inherit"
-                  onClick={handleLogOut}
-                >
-                  <LogoutIcon />
-                </IconButton>
-              ) : (
-                ""
-              )}
-              {decodedToken.role !== "admin" ? (
-                <IconButton size="large" color="inherit" onClick={handleCart}>
-                  <Badge badgeContent={CartData.length} color="error">
-                    <AddShoppingCartIcon />
-                  </Badge>
-                </IconButton>
-              ) : (
-                <IconButton
-                  size="large"
-                  color="inherit"
-                  onClick={handleDashBoard}
-                >
-                  <DashboardIcon />
-                </IconButton>
-              )}
-
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                onClick={handleOpen}
-                color="inherit"
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                <AccountCircle />
-              </IconButton>
-              {decodedToken.role === "admin" ? (
-                ""
-              ) : token ? (
-                <p style={{ fontSize: "10px" }}>Profile</p>
-              ) : (
-                <p style={{ fontSize: "10px" }}>Login</p>
-              )}
-            </Box>
+            <DesktopHeader cartData={CartData} handleCart={handleCart} handleDashBoard={handleDashBoard} handleLogOut={handleLogOut} handleOpen={handleOpen} />
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"

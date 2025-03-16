@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import { useProduct } from "../store/UseProductStore";
 import axiosInstance from "../interceptors/interceptor";
 
+
 export type ReviewState = {
   rating: number;
   comment: string;
@@ -46,10 +47,8 @@ const HomePage1 = () => {
       const response = await axiosInstance.get("user/get-products");
       setProductData(response.data.data);
       setLoading(false);
-      console.log(response.data.message);
     } catch (err: any) {
       setLoading(false);
-      console.log(err.response.data.message);
     }
   };
 

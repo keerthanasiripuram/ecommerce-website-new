@@ -43,7 +43,7 @@ export const Search = styled("div")(({ theme }) => ({
   },
 }));
 
-export const Loaderstyle = {
+export const loaderStyle = {
   borderRadius: "50%",
   height: "25px",
   width: "25px",

@@ -36,4 +36,4 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   );
 };
 
-export default React.memo(PageLayout);
+export default PageLayout;

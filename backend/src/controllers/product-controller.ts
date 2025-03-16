@@ -62,6 +62,7 @@ import { CustomError } from "../errorObject";
 
 export const postReview = async (req: Request, res: Response,next: NextFunction): Promise<any> => {
   try {
+    console.log(req.body)
     await postReviewService(req.body as ReviewData);
     return res.status(201).json({ message: "Review added successfully" });
   } catch (err: any) {

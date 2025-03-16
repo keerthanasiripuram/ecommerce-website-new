@@ -1,19 +1,17 @@
-import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Box, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+import Header from "./components/Header";
+import HomePage1 from "./pages/HomePage1";
 import Products from "./pages/Products";
 import ProductDetailPage1 from "./pages/ProductPage1";
+import AddToCart1 from "./pages/AddToCart1";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Checkout from "./pages/Checkout";
-import Header from "./components/Header";
+import Profile from "./pages/ProfileLayout";
+import ViewOrders1 from "./pages/ViewOrders1";
+import AdminDashBoard1 from "./pages/AdminDashBoard1";
 import AdminOperations from "./pages/AdminOperations";
 import CustomTheme from "./themes/CustomTheme";
-import HomePage1 from "./pages/HomePage1";
-import ViewOrders1 from "./pages/ViewOrders1";
-import AddToCart1 from "./pages/AddToCart1";
-import { Loaderstyle } from "./styledComponents/StyledComponent";
-const Profile = React.lazy(() => import("./pages/Profile"));
-const AdminDashBoard1 = React.lazy(() => import("./pages/AdminDashBoard1"));
 
 const router = createBrowserRouter([
   {
@@ -36,9 +34,7 @@ const router = createBrowserRouter([
         path: "/profile",
         element: (
           <ProtectedRoute role={"customer"}>
-            <Suspense fallback={<Box sx={Loaderstyle}></Box>}>
               <Profile />
-            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -54,9 +50,7 @@ const router = createBrowserRouter([
         path: "/admin-dashboard",
         element: (
           <ProtectedRoute role={"admin"}>
-            <Suspense fallback={<Box sx={Loaderstyle}></Box>}>
               <AdminDashBoard1 />
-            </Suspense>
           </ProtectedRoute>
         ),
       },

@@ -32,7 +32,7 @@ export type ProductState = {
   images: string;
   quantity: number;
   reviews: Array<ReviewState>;
-  tot_len?: number;
+  totLen?: number;
 };
 
 const ProductContainer1 = ({
@@ -126,7 +126,7 @@ const ProductContainer1 = ({
               ))}
             </Grid>
             <Pagination
-              count={totLen / 2}
+              count={totLen/ 2}
               page={currentPage}
               onChange={handlePageChange}
               color="primary"

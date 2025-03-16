@@ -4,14 +4,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import Login from '../pages/SignIn'; // Assuming Login component exists
 import Registration from "../pages/Registration"; // Assuming Registration component exists
 import AddProduct from "../components/AddProduct";
-import { ProductState } from "../components/ProductContainer1";
+import AddReview from "../components/AddReview";
+import ViewReviews from "../components/ViewReviews";
+import { ProductState } from "../pages/AdminOperations";
+
 
 interface CustomModalProps {
   open: boolean;
+  data?:ProductState;
+  isUpdate?:boolean;
   onClose: () => void;
-  formType?: "login" | "register"; // To choose which form to display
-  message?: string; // Message to show if not displaying a form
-  severity?: "success" | "error"; // Severity to style the message (if any)
+  formType?: "login" | "register"|"add-review"| "view-review" |"add-product"|"update-product"; // To choose which form to display
 }
 const style = {
   position: "absolute",
@@ -29,12 +32,12 @@ const style = {
 
 const CustomModal: React.FC<CustomModalProps> = ({
   open,
+  data,
+  isUpdate=false,
   onClose,
-  formType = "login", // Default to 'login' if not provided
-  message,
-  severity = "success", // Default severity is success
-
+  formType = "login",
 }) => {
+  console.log(formType)
   return (
     // <Modal open={open} onClose={onClose}>
     //   <Box sx={style}>
@@ -80,29 +83,27 @@ const CustomModal: React.FC<CustomModalProps> = ({
         <CloseIcon />
       </IconButton>
 
-      {/* If there's a message, show it; otherwise, show the appropriate form */}
-      {message ? (
         <Box>
-          <Typography variant="h6" color={severity === "error" ? "red" : "green"}>
-            {message}
-          </Typography>
-        </Box>
-      ) : (
-        <Box>
-          {formType === "login" ? (
+          {/* {formType === "login" ? (
             <Login onClose={onClose} />
           ) : (
             <Registration onClose={onClose} />
-          )}
+          )} */}
+          {formType === "login" && <Login onClose={onClose}/>}
+          {formType === "register" && <Registration onClose={onClose}/>}
+          {/* {formType === "add-review"&&<AddReview handleClose={onClose}/>} */}
+         {formType==="view-review"&&<ViewReviews/>}
+         {/* {formType === "add-product"&& <AddProduct data={data}
+                isUpdate={isUpdate}
+                onClose={onClose}/>} */}
         </Box>
-      )}
     </Box>
   </Modal>
 
   );
 };
 
-export default CustomModal;
+export default React.memo(CustomModal);
 
 // interface CustomModalProps {
 //   open: boolean;

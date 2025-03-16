@@ -21,7 +21,7 @@ interface MobileComponentProps {
     handleLogOut:()=>void,
     handleDashBoard:()=>void,
     handleOpen:()=>void,
-    mobileMoreAnchorEl: null | HTMLElement; // The element that triggers the mobile menu
+    mobileMoreAnchorEl: null | HTMLElement;
     setMobileMoreAnchorEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>; 
   }
   

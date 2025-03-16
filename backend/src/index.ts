@@ -50,6 +50,7 @@ app.use((err: any, req: any, res: any, next: any) => {
   //     message: err.message,
   //   });
   // }
+  console.log(err)
   if (err instanceof Error) {
     if(err.message==="CONFLICT")
     {

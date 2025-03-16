@@ -3,21 +3,17 @@ import {
   Card,
   Typography,
   Button,
-  Modal,
   Box,
-  IconButton,
   RadioGroup,
   FormControlLabel,
   Radio,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import Registration from "./Registration";
 import { useCart } from "../store/UseCartStore";
 import axiosInstance from "../interceptors/interceptor";
 import CustomSnackBar from "../customFields/CustomSnackBar";
+import CustomModal from "../customFields/CustomModal";
+import PaymentHelper from "../components/PaymentHelper";
 
 const style = {
   position: "absolute",
@@ -119,30 +115,16 @@ const Checkout = () => {
       >
         <Typography variant="h6">Order Amount: ${totSum}</Typography>
         <Card style={{ marginTop: "5px", padding: "5px", gap: "20px" }}>
-          <Typography variant="h6"> Add delivery Address</Typography>
-          <Button
-            variant="contained"
-            onClick={handleOpen}
-            sx={{ borderRadius: "5px", marginTop: "5px" }}
-          >
-            Add Delivery address
-          </Button>
-        </Card>
-        <Card style={{ marginTop: "5px", padding: "5px" }}>
-          <Typography variant="h6"> Choose payment mode:</Typography>
-          <RadioGroup aria-labelledby="demo-controlled-radio-buttons-group">
-            <FormControlLabel
-              value="UPI"
-              control={<Radio />}
-              label="UPI Payments"
-            />
-            <FormControlLabel
-              value="credit-card"
-              control={<Radio />}
-              label="Credit card"
-            />
-          </RadioGroup>
-        </Card>
+           <Typography variant="h6"> Add delivery Address</Typography>
+           <Button
+             variant="contained"
+             onClick={handleOpen}
+             sx={{ borderRadius: "5px", marginTop: "5px" }}
+           >
+             Add Delivery address
+           </Button>
+         </Card>
+        <PaymentHelper/>
         <Button
           variant="contained"
           onClick={handleOrder}
@@ -173,7 +155,7 @@ const Checkout = () => {
         onClose={handleCloseSnackbar}
       />
       
-      {/* modal to enter/update address */}
+      {/* modal to enter/update address
       <Modal
         open={open}
         onClose={handleClose}
@@ -193,7 +175,12 @@ const Checkout = () => {
           </IconButton>
           <Registration onClose={handleClose} />
         </Box>
-      </Modal>
+      </Modal> */}
+                  <CustomModal
+        open={open}
+        onClose={handleClose}
+        formType="register"  // You can change this to 'login' if needed
+      />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getReviewData } from "../controllers/ProductController";
+import { getReviewData } from "../services/ProductServices";
 
 type ReadReviewState = {
   reviewerName: string;
@@ -68,4 +68,4 @@ const ViewReviews = () => {
   );
 };
 
-export default React.memo(ViewReviews);
+export default ViewReviews;
